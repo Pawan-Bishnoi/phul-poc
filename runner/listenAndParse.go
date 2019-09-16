@@ -1,7 +1,6 @@
 package runner
 
 import (
-  "fmt"
   "time"
   "phul-poc/definition"
   "phul-poc/builder"
@@ -17,9 +16,10 @@ func Init(ch chan definition.Message) {
 func runLoop(pl []definition.Provider, ch chan definition.Message) {
   for true {
     for _, p := range pl {
-      p.GetMessages()
-      ch <- nil
-      fmt.Println("GetMessage returned")
+      res := p.GetMessages()
+      for _, r := range res {
+        ch <- r
+      }
       time.Sleep(1*time.Second)
     }
     time.Sleep(10*time.Second)

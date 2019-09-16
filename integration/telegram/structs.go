@@ -1,5 +1,42 @@
 package telegram
 
+/*
+Sample response
+{
+  "ok":true,
+  "result":
+  [{
+    "update_id":109399140,
+    "message":
+    {
+      "message_id":8,
+      "from":
+      {
+        "id":388648082,
+        "is_bot":false,
+        "first_name":"Pawan",
+        "last_name":"Bishnoi",
+        "language_code":"en"
+      },
+      "chat":
+      {
+        "id":388648082,
+        "first_name":"Pawan",
+        "last_name":"Bishnoi",
+        "type":"private"
+      },
+      "date":1568651093,
+      "text":"ting"
+    }
+   }]
+}
+*/
+
+type TelResponse struct {
+  Ok bool              `json:"ok"`
+  Result []TelResult   `json:"result"`
+}
+
 // Telegram result is the response of GetUpdates call
 type TelResult struct {
   UpdateId string      `json:"update_id"`

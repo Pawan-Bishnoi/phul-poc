@@ -22,27 +22,23 @@ func (tg *Instance) GetUpdates() (definition.Response, error) {
   client := resty.New()
 
   resp, err := client.R().EnableTrace().Get("https://api.telegram.org/" + botkey + "/getUpdates")
-
-  fmt.Println("resp: ", resp)
-  fmt.Println("err: ", err)
   return resp, err
 }
 
 func (tg *Instance) GetMessages() ([]definition.Message) {
+  arr := make([]definition.Message, 0)
   updates, _ := tg.GetUpdates()
-
   if updates == nil {
     return nil
   }
 
-  var m []TelResult
-  results := updates.Result()
-  b, _ := json.Marshal(results)
-  json.Unmarshal(b, &m)
-  for res := range m {
-    fmt.Println("Message: ", res)
+  var r TelResponse
+  json.Unmarshal(updates.Body(), &r)
+  for _, res := range r.Result {
+    arr = append(arr, res.Message)
   }
-  return nil
+  fmt.Println(arr)
+  return arr
 }
 
 func (tg *Instance) SendMessage(msg string) (definition.Response, error){

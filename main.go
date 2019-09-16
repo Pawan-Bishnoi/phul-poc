@@ -11,7 +11,10 @@ func main() {
   fmt.Println("Core is up")
   ch := make(chan definition.Message, 1)
   runner.Init(ch)
-  http.ListenAndServe(":8000", nil)
+  for true {
+	fmt.Printf("received over channel %v", <-ch)
+  }
+  // http.ListenAndServe(":8000", nil)
 }
 
 func health(w http.ResponseWriter, r *http.Request) {
